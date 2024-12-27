@@ -1,0 +1,1 @@
+docker-compose -p infra-apm up master_postgres
