@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/apm_db
+    username: user
+    password: pswd
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    format-sql: true
+    package-to-scan: dev.sc.apm.entity
+    properties:
+      hibernate:
+        format_sql: true
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+    org:
+      hibernate:
+        sql: debug
+        engine:
+          jdbc:
+            batch:
+              internal:
+                BatchingBatch: TRACE
