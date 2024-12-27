@@ -51,6 +51,39 @@ public class ClientService {
 
     @Transactional(readOnly = true)
     public PageResponseDto<ClientDto> findClients(@Valid @Positive int page,@Valid @NotNull FindClientsRequestDto findClientRequest) {
-        return null;
+
+        Optional<GroupValidationException> validation = validator.validateFindClientRequestDto(findClientRequest);
+
+        if (validation.isPresent()) {
+            throw validation.get();
+        }
+
+        Page<Client> clients = clientRepository.findAllBy(new Pageable(page, CLIENT_PAGE_SIZE), (builder, root) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (findClientRequest.getFirstName() != null) {
+                predicates.add(builder.equal(root.get("firstName"), findClientRequest.getFirstName()));
+            }
+
+            if (findClientRequest.getLastName() != null) {
+                predicates.add(builder.equal(root.get("lastName"), findClientRequest.getLastName()));
+            }
+
+            if (findClientRequest.getMiddleName() != null) {
+                predicates.add(builder.equal(root.get("middleName"), findClientRequest.getMiddleName()));
+            }
+
+            if (findClientRequest.getPhone() != null) {
+                predicates.add(builder.equal(root.get("phone"), findClientRequest.getPhone()));
+            }
+
+            if (findClientRequest.getPassport() != null) {
+                predicates.add(builder.equal(root.get("passport"), findClientRequest.getPassport()));
+            }
+
+            return predicates.toArray(Predicate[]::new);
+        });
+
+        return getPageResponse(() -> clients, clientMapper::fromClient);
     }
 }
