@@ -15,3 +15,9 @@ services:
       - POSTGRES_DB=apm_db
     ports:
       - '5432:5432'
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - app

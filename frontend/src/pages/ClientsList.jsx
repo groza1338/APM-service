@@ -5,7 +5,10 @@ export default function ClientsList() {
     const [clients, setClients] = useState([]);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
-    const [pageSize, setPageSize] = useState(10); // Предположим, что 10 по умолчанию
+    const [pageSize, setPageSize] = useState(10);
+    const apiUrl = import.meta.env.DEV
+        ? 'http://localhost:8080/api'   // Если мы в режиме разработки
+        : '/api';  // Если мы в продакшене
 
     // Объект с полями для поиска
     const [searchData, setSearchData] = useState({
@@ -26,7 +29,7 @@ export default function ClientsList() {
     const fetchClients = async (pageNum, searchValues) => {
         try {
             // Начинаем формировать URL
-            let url = `http://localhost:8080/api/v1/client/list?page=${pageNum}`;
+            let url = `${apiUrl}/v1/client/list?page=${pageNum}`;
 
             // Сериализуем только непустые поля
             const queryParams = [];

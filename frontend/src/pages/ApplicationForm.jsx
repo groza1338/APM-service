@@ -15,7 +15,9 @@ export default function ApplicationForm() {
         employmentPeriod: '',
         amount: ''
     });
-
+    const apiUrl = import.meta.env.DEV
+        ? 'http://localhost:8080/api'   // Если мы в режиме разработки
+        : '/api';  // Если мы в продакшене
     const [applicationResult, setApplicationResult] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
     const [isSigned, setIsSigned] = useState(false); // Следим, подписан ли договор
@@ -49,7 +51,7 @@ export default function ApplicationForm() {
         setIsSigned(false);
 
         try {
-            const response = await fetch('http://localhost:8080/api/v1/credit-application', {
+            const response = await fetch(`${apiUrl}/v1/credit-application`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +89,7 @@ export default function ApplicationForm() {
 
         try {
             const response = await fetch(
-                `http://localhost:8080/api/v1/credit-application/${applicationResult.id}/signing`,
+                `${apiUrl}/v1/credit-application/${applicationResult.id}/signing`,
                 {
                     method: 'PATCH'
                 }

@@ -6,6 +6,9 @@ export default function ApplicationsList() {
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
     const [pageSize, setPageSize] = useState(10);
+    const apiUrl = import.meta.env.DEV
+        ? 'http://localhost:8080/api'   // Если мы в режиме разработки
+        : '/api';  // Если мы в продакшене
 
     useEffect(() => {
         fetchData(page);
@@ -13,7 +16,7 @@ export default function ApplicationsList() {
 
     const fetchData = async (pageNum) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/credit-application/list?page=${pageNum}`);
+            const response = await fetch(`${apiUrl}/v1/credit-application/list?page=${pageNum}`);
             if (!response.ok) {
                 throw new Error('Ошибка при загрузке заявок');
             }
