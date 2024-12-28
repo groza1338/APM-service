@@ -17,7 +17,7 @@ public class GlobalCorsConfig {
                 System.out.println("CORS configuration applied"); // Добавьте лог
                 registry.addMapping("/**")
                         .allowedOrigins("*")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                         .allowedHeaders("*")
                         .exposedHeaders("Authorization", "Content-Length")
                         .allowCredentials(false);
